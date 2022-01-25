@@ -11,7 +11,13 @@
 
     <div class="row">
         <h1>Hi <asp:Label runat="server" ID="UserNameLabel"></asp:Label></h1>
+        <p><button onclick="openWindow">View Blazor App</button></p>
     </div>
     
-
+    <script>
+        function openWindow() {
+            window.open("https://localhost:7160/", "_blank", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=w, height=h, top=top, left=left');
+        }
+    </script>
 </asp:Content>
+
