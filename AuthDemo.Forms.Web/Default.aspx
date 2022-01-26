@@ -11,7 +11,7 @@
 
     <div class="row">
         <h1>Hi <asp:Label runat="server" ID="UserNameLabel"></asp:Label></h1>
-        <p><button onclick="openWindow">View Blazor App</button></p>
+        <p><asp:Button runat="server" OnClick="OpenPopup_Click" Text="View Blazor App" /></p>
     </div>
     
     <script>
