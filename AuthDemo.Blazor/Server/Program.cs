@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(c =>
+{
+    c.Cookie.Domain = ".pwc.local";
+    c.Cookie.Name = ".ASPXAUTH";
+});
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -27,6 +39,9 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapRazorPages();

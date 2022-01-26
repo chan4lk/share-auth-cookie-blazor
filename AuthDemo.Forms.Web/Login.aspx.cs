@@ -19,6 +19,7 @@ namespace AuthDemo.Forms.Web
         {
             if (FormsAuthentication.Authenticate(UserName.Text, UserPass.Text))
             {
+                
                 FormsAuthentication.RedirectFromLoginPage(UserName.Text, chkboxPersist.Checked);
             }
             else
