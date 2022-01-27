@@ -1,8 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.ResponseCompression;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+.Enrich.FromLogContext()
+.WriteTo.File(@"C:\logs\log.txt")
+.CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -18,6 +24,11 @@ builder.Services.AddAuthentication(opt =>
 });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddHttpClient("internal", client => {
+    client.BaseAddress = new Uri("http://aeoi.pwc.local");
+    client.DefaultRequestHeaders.Add("Content-Type","application/x-www-form-urlencoded");
+});
 
 var app = builder.Build();
 
