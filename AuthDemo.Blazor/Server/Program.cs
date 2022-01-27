@@ -20,7 +20,6 @@ builder.Services.AddAuthentication(opt =>
 .AddCookie(c =>
 {
     c.Cookie.Domain = ".pwc.local";
-    c.Cookie.Name = ".ASPXAUTH";
 });
 
 builder.Services.AddAuthorization();

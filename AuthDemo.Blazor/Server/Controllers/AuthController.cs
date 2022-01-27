@@ -41,6 +41,9 @@ namespace AuthDemo.Blazor.Server.Controllers
                     cookieContainer.Add(baseAddress, new Cookie(".ASPXAUTH", HttpContext.Request.Cookies[".ASPXAUTH"]));
                     var result = await client.PostAsync("/AuthService.asmx/GetUser", content);
                     var data = await result.Content.ReadAsStringAsync();
+
+                    _logger.LogInformation("auth result: {@data}", data);
+
                     var model = DeserializeObject<UserModel>(data);
 
                     if (model.IsAuthenticated)

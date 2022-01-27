@@ -20,7 +20,8 @@ namespace AuthDemo.Blazor.Client.Services
             var identity = new ClaimsIdentity(new[]
             {
                     new Claim(ClaimTypes.Name, model.Name),
-            });
+            }, "Password");
+
 
             var user = new ClaimsPrincipal(identity);
 
