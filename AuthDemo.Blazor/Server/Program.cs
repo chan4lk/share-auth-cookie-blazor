@@ -19,13 +19,13 @@ builder.Services.AddAuthentication(opt =>
 })
 .AddCookie(c =>
 {
-    c.Cookie.Domain = ".pwc.local";
+    c.Cookie.Domain = ".poc.local";
 });
 
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient("internal", client => {
-    client.BaseAddress = new Uri("http://aeoi.pwc.local");
+    client.BaseAddress = new Uri("http://aeoi.poc.local");
 });
 
 var app = builder.Build();
