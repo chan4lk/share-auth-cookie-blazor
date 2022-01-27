@@ -1,8 +1,11 @@
 ﻿using AuthDemo.Blazor.Shared;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -18,7 +21,8 @@ namespace AuthDemo.Blazor.Server.Controllers
         {
             _httpClient = httpClientFactory.CreateClient("internal");
         }
-        public async Task<UserModel> GetUser()
+        [HttpGet("")]
+        public async Task<UserModel> Get()
         {
             var baseAddress = _httpClient.BaseAddress;
             var cookieContainer = new CookieContainer();
@@ -33,6 +37,27 @@ namespace AuthDemo.Blazor.Server.Controllers
                 var result = await client.PostAsync("/AuthService.asmx/GetUser", content);
                 var data = await result.Content.ReadAsStringAsync();
                 var model = DeserializeObject<UserModel>(data);
+
+                if (model.IsAuthenticated)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, model.Name),
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                       
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProperties);
+                }
 
                 return model;
             }           
