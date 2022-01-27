@@ -27,7 +27,6 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient("internal", client => {
     client.BaseAddress = new Uri("http://aeoi.pwc.local");
-    client.DefaultRequestHeaders.Add("Content-Type","application/x-www-form-urlencoded");
 });
 
 var app = builder.Build();
